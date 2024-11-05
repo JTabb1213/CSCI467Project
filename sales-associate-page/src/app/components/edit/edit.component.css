@@ -1,0 +1,137 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.customer-list-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    color: #343a40;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    transition: background-color 0.3s;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li:hover {
+    background-color: #e9ecef;
+}
+
+strong {
+    display: block;
+    font-size: 18px;
+    color: #495057;
+}
+
+.close-button {
+    cursor: pointer;
+    color: #dc3545;
+    font-size: 20px;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    transition: color 0.3s;
+}
+
+.close-button:hover {
+    color: #c82333;
+}
+
+.customer-list-container {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.enterInfoContainer {
+    left: 50%;
+    width: 50%;
+    padding: 20px;
+    background-color: #f0f4f8;
+    border: 1px solid #d1d9e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.enterInfoContainer label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.enterInfoContainer input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #d1d9e0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enterInfoContainer input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+.enterInfoContainer label:hover {
+    color: #007bff;
+}
+
+.submitOrderButton {
+    color: #007bff;
+    background-color: #d1d9e0;
+    border: none;
+    cursor: pointer;
+}
+
+.submitOrderButton:hover {
+    background-color: darkblue;
+}
+
+.boxForCustomersListAndButton {
+    position: relative;
+    width: 60%;
+    margin: 30px auto 0;
+    padding: 20px;
+    background-color: #eaf2f8;
+    border: 1px solid #c1c9d0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}

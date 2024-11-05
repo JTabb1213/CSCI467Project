@@ -1,0 +1,32 @@
+<div class="mainContainer">
+    <div class="enterInfoContainer">
+        <label for="customerID">Customer ID:</label>
+        <input type="text" id="customerID" [(ngModel)]="customerID" placeholder="Enter customer's ID">
+
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" [(ngModel)]="amount" placeholder="Enter your amount">
+
+        <button class='submitOrderButton' (click)="submitCustomerOrder()">Submit</button>
+    </div>
+
+    <div class="boxForCustomersListAndButton">
+        <div class="button">
+            <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking()"></app-button-to-view-all-customers>
+        </div>
+
+        <div *ngIf="customersHere" class="customer-list-container">
+            <div class="close-button" (click)="hideCustomerList()">x</div>
+            <h3>All Customers:</h3>
+            <ul>
+            <li *ngFor="let customer of customerList">
+                <strong>{{ customer.name }}</strong><br>
+                Address: {{ customer.street }}, {{ customer.city }}<br>
+                Contact: {{ customer.contact }}<br>
+                ID: {{ customer.id }}
+            </li>
+            </ul>
+        </div>
+    </div>
+</div>
+  
+

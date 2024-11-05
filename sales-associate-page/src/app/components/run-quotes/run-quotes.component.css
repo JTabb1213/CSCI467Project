@@ -1,0 +1,41 @@
+header {
+    padding: 15px;
+    text-align: 'center';
+    background-color: aquamarine;
+    color: black;
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-quotes {
+    background-color: #007BFF;
+    color: white;
+}
+
+.finalize-quotes {
+    background-color: #28A745;
+    color: white;
+}
+
+.edit-quotes:hover {
+    background-color: #0056b3;
+}
+
+.finalize-quotes:hover {
+    background-color: #218838;
+}

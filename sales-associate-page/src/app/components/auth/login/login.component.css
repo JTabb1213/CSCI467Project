@@ -1,0 +1,18 @@
+.wrapper {
+    background-color: antiquewhite;
+    display: grid;
+    align-items: center;
+    height: 100vh;
+}
+
+.wrapper button {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    padding: 12px 16px;
+    background-color: blue;
+    color: azure;
+    border: none;
+    cursor: pointer;
+
+}
