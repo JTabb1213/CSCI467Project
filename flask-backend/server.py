@@ -58,7 +58,10 @@ def send_purchase_order():
         order = generate_random_string()
         associate = data['associateID']
         custid = data['custID']
-        amount = data['amount']
+        price = data['price']
+        email = data['email']
+        description = data['description']
+        secrets = data['secretNotes']
         return jsonify({'data recieved' : data}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400

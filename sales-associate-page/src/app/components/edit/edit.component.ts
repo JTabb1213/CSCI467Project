@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ButtonToViewAllCustomersComponent } from '../button-to-view-all-customers/button-to-view-all-customers.component';
-import { Customer, PurchaseOrder } from '../../models/customer.model';
+import { Customer, EnterQuotes } from '../../models/customer.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../../services/customer-db.service';
@@ -16,12 +16,15 @@ export class EditComponent {
   constructor(private apiService: CustomerService) { }
   showSidebar = false;
   customerList: Customer[] = []; // Array to hold the customer data
-  ord: PurchaseOrder | null = null;//neccesary unless cuz there only is one purchaseorder at once
+  ord: EnterQuotes | null = null;//neccesary unless cuz there only is one purchaseorder at once
   showColorWheel: boolean = false;
   customersHere: boolean = false;
   customerID: number = 0;
-  amount: number = 0.00;
+  price: number = 0.00;
   salesID: string = 'hh332';
+  email: string = "";
+  description: string = "";
+  secretNotes: string = "";
 
   // Method to handle received data
   onCustomersLoaded(customers: Customer[]): void {
@@ -40,13 +43,16 @@ export class EditComponent {
   }
 
   submitCustomerOrder(): void {
-    const ord: PurchaseOrder = { //get details for the order, store them in model
+    const ord: EnterQuotes = { //get details for the order, store them in model
       associateID: this.salesID,
       custID: this.customerID,
-      amount: this.amount
-    }
+      price: this.price,
+      email: this.email,
+      description: this.description,
+      secretNotes: this.secretNotes
+    };
 
-    this.apiService.addQuotes(ord).subscribe((data: PurchaseOrder) => {
+    this.apiService.addQuotes(ord).subscribe((data: EnterQuotes) => {
       this.ord = data;
       console.log(this.ord);
     }, error => {

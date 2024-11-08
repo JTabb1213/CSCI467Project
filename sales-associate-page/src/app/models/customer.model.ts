@@ -6,8 +6,11 @@ export interface Customer {
     contact: string;
 }
 
-export interface PurchaseOrder {
+export interface EnterQuotes {
     associateID: string;
     custID: number;
-    amount: number;
+    price: number;
+    email: string;
+    description: string;
+    secretNotes: string;
 }

@@ -3,13 +3,22 @@
         <label for="customerID">Customer ID:</label>
         <input type="text" id="customerID" [(ngModel)]="customerID" placeholder="Enter customer's ID">
 
-        <label for="amount">Amount:</label>
-        <input type="text" id="amount" [(ngModel)]="amount" placeholder="Enter your amount">
+        <label for="price">Price:</label>
+        <input type="text" id="price" [(ngModel)]="price" placeholder="Enter quote price">
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" [(ngModel)]="email" placeholder="Enter customer's email">
+
+        <label for="description">Description:</label>
+        <textarea id="description" [(ngModel)]="description" placeholder="Enter quote description" rows="4"></textarea>
+
+        <label for="secretNotes">Secret Notes:</label>
+        <textarea id="secretNotes" [(ngModel)]="secretNotes" placeholder="Enter any secret notes here" rows="4"></textarea>
 
         <button class='submitOrderButton' (click)="submitCustomerOrder()">Submit</button>
     </div>
 
-    <div class="boxForCustomersListAndButton">
+    <div classs="boxForCustomersListAndButton">
         <div class="button">
             <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking()"></app-button-to-view-all-customers>
         </div>
