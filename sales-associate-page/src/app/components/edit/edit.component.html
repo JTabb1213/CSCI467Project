@@ -20,7 +20,8 @@
 
     <div classs="boxForCustomersListAndButton">
         <div class="button">
-            <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking()"></app-button-to-view-all-customers>
+            <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking()" (click)="hideQuotesList()"></app-button-to-view-all-customers>
+            <app-view-all-quotes-button (quotesLoaded)="onQuotesLoaded($event)" (click)="setWorking()" (click)="hideCustomerList()"></app-view-all-quotes-button>
         </div>
 
         <div *ngIf="customersHere" class="customer-list-container">
@@ -35,7 +36,25 @@
             </li>
             </ul>
         </div>
+
+        <div *ngIf="quotesHere" class="customer-list-container">
+            <div class="close-button" (click)="hideQuotesList()">x</div>
+            <h3>All Quotes:</h3>
+            <ul>
+            <li *ngFor="let quote of quotesList">
+                <strong>{{ quote.description }}</strong><br>
+                Quote price: ${{quote.price}}<br>
+                Customer ID: {{ quote.custID }}<br>
+                Customer email: {{quote.email}}<br>
+                Associate ID: {{quote.associateID}}<br>
+                Secrets: {{quote.secretNotes}}
+            </li>
+            </ul>
+        </div>
     </div>
 </div>
+
+<div class="spacer"></div>
+
   
 

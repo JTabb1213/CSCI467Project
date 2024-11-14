@@ -22,4 +22,8 @@ export class CustomerService {
   addQuotes(order: EnterQuotes): Observable<any> {
     return this.http.post<EnterQuotes>(`${this.apiUrl}/purchase_order`, order);
   }
+
+  getQuotes(): Observable<any> {
+    return this.http.get<EnterQuotes>(`${this.apiUrl}/view_all_quotes`);
+  }
 }

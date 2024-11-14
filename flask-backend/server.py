@@ -70,6 +70,21 @@ def test_db_connection():
         return jsonify(str(e)), 500
     finally:
         session.close()  # Close the session
+
+@app.route('/view_all_quotes', methods=['GET'])#This is just used to test if connection to a database is successful
+def view_all_quotes():
+    session = SessionLocal2() #test session 2, 
+    try:
+        result = session.execute(text('SELECT * FROM customer_quotes'))
+        rows = result.fetchall()
+        columns = result.keys()
+        results_list = [dict(zip(columns, row)) for row in rows]
+        return jsonify(results_list)
+    except Exception as e:
+        #error_message = traceback.format_exc()
+        return jsonify(str(e)), 500
+    finally:
+        session.close()  # Close the session
         
 @app.route('/purchase_order', methods=['POST'])#Endpoint used by sales associate to add/update a quote to our database
 def send_purchase_order():

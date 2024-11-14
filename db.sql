@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS customer_quotes (
     price DECIMAL(10, 2) NOT NULL,       
     email VARCHAR(255),                   
     description TEXT,                    
-    secretNotes TEXT,                    
+    secretNotes TEXT,
     PRIMARY KEY (custID)                  
 );
