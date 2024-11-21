@@ -1,5 +1,20 @@
-
-<div>
-    Welcome to the home page of the sales quotes application
+<div class="homepage">
+  <header class="main-header">
+    <h1>Welcome to the Sales Quote Tracking System</h1>
+  </header>
 </div>
 
+<div class="main-intro">
+  <p>Manage quotes, finalize them, and convert them into purchase orders with ease.</p>
+</div>
+
+<main class="intro-section">
+  <h2>What Would You Like to Do?</h2>
+
+  <div class="navigation-buttons">
+    <button class="action-button" [routerLink]="['/sales-quotes']">Create and Manage Quotes</button>
+    <button class="action-button" [routerLink]="['/sales-quotes']">Manage Finalized Quotes</button>
+    <button class="action-button" [routerLink]="['/sales-quotes']">Manage Purchase Orders</button>
+  </div>
+  
+</main>

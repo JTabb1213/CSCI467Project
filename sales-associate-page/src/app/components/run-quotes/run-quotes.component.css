@@ -1,41 +1,61 @@
-header {
-    padding: 15px;
-    text-align: 'center';
-    background-color: aquamarine;
-    color: black;
-}
-
-
-.button-container {
-    display: flex;
-    justify-content: space-around;
+body {
+    background-color: #f7f7f7; 
+    font-family: 'Arial, sans-serif';
+    color: #333333; 
+  }
+  
+  .main-header {
+    background-color: #E6D7D0;
+    color: #333333;
+    width: 100%;
+    padding: 0; 
+    margin: 0; 
+    height: 100px; 
+    display: flex; 
+    justify-content: center; 
     align-items: center;
-    height: 100vh;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
+    text-align: center; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .main-header h1 {
+    font-size: 2em; 
+    margin: 0; 
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    margin-top: 90px; 
+  }
+  
+  .navigation-buttons {
+    margin-top: 20px;
+  }
+  
+  .action-button {
+    background-color: #d3e0ea;
+    color: #333333;
     border: none;
-    border-radius: 5px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.edit-quotes {
-    background-color: #007BFF;
-    color: white;
-}
-
-.finalize-quotes {
-    background-color: #28A745;
-    color: white;
-}
-
-.edit-quotes:hover {
-    background-color: #0056b3;
-}
-
-.finalize-quotes:hover {
-    background-color: #218838;
-}
+    margin: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .action-button:hover {
+    background-color: #aacfd0; 
+    transform: scale(1.05);
+  }
+  
+  .action-button:active {
+    background-color: #8aa7ab; 
+    transform: scale(1.02);
+  }
+  
