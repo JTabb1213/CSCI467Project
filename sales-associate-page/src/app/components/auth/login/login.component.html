@@ -1,5 +1,29 @@
 <div class="wrapper">
-    <button>
-        Login
-    </button>
+    <h2>Login</h2>
+    <!-- The login forum: Two inputs & Submit button-->
+    <form (ngSubmit)="onLogin()"> <!--Calls the onLogin() method when the forum is submmitted-->
+        <div>                     <!-- the onLogin() method present in the login.components.ts page-->
+            <label for="username">Username:</label>
+            <input
+                type="text"
+                id="username"
+                [(ngModel)]="username"  
+                name="username"
+                required   
+            />
+                <!--required makes the field mandatory to fill in-->
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input
+                type="password"
+                id="password"
+                [(ngModel)]="password"
+                name="password"
+                required
+            />
+        </div>
+        <button type="submit">Login</button>
+    </form>
 </div>
+

@@ -2,17 +2,43 @@
     background-color: antiquewhite;
     display: grid;
     align-items: center;
+    justify-items: center;
     height: 100vh;
+    padding: 20px;
 }
 
-.wrapper button {
-    width: 100px;
-    display: block;
-    margin: 0 auto;
-    padding: 12px 16px;
-    background-color: blue;
-    color: azure;
-    border: none;
-    cursor: pointer;
+form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
 
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: darkblue;
 }
