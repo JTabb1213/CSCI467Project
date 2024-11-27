@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS customer_quotes (
+    isFinalized BOOLEAN DEFAULT FALSE,
     associateID VARCHAR(255) NOT NULL,   
     custID INT NOT NULL,                  
     price DECIMAL(10, 2) NOT NULL,       
