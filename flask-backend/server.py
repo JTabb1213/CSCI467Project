@@ -10,7 +10,7 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})# Allow access
 
 #External database endpoints in this form: dbtype://user:password@host:port/db1
 engine1 = create_engine("mysql+pymysql://student:student@blitz.cs.niu.edu:3306/csci467")
-engine2 = create_engine("mysql+pymysql://sql5743974:7h7d7IQbUh@sql5.freesqldatabase.com:3306/sql5743974")
+engine2 = create_engine("mysql+pymysql://admin:NIUCSCI467@database-1.crkw0uso6xkp.us-east-2.rds.amazonaws.com:3306")
 Base = declarative_base()
 #establish session connection
 SessionLocal1 = sessionmaker(autocommit=False, autoflush=False, bind=engine1)
