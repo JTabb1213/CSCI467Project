@@ -10,3 +10,13 @@ CREATE TABLE customer_quotes (
     description TEXT,                    
     secretNotes TEXT
 );
+
+DROP TABLE IF EXISTS sales_associates;
+
+CREATE TABLE sales_associates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    passwrd VARCHAR(255) NOT NULL
+);
+
+

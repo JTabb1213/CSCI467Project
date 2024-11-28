@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer, EnterQuotes } from '../models/customer.model';
+import { Customer, EnterQuotes, associateLogin } from '../models/customer.model';
 @Injectable({
   providedIn: 'root', // This makes the service available throughout the app
 })
@@ -25,5 +25,9 @@ export class CustomerService {
 
   getQuotes(): Observable<any> {
     return this.http.get<EnterQuotes>(`${this.apiUrl}/view_all_quotes`);
+  }
+
+  associateLogin(user: associateLogin): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/attempt_associate_login`, user);
   }
 }

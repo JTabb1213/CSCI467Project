@@ -15,3 +15,8 @@ export interface EnterQuotes {
     description: string;
     secretNotes: string;
 }
+
+export interface associateLogin {
+    username: string;
+    passwrd: string;
+}

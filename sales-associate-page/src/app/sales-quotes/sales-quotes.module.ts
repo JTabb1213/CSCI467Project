@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 import { SalesQuotesRoutingModule } from './sales-quotes-routing.module';
 
 
@@ -8,7 +8,8 @@ import { SalesQuotesRoutingModule } from './sales-quotes-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    SalesQuotesRoutingModule
+    SalesQuotesRoutingModule,
+    FormsModule
   ]
 })
 export class SalesQuotesModule { }

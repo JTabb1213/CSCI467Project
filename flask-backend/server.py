@@ -41,6 +41,38 @@ class Customer(Base):
             'contact': self.contact
         }
 
+@app.route('/attempt_associate_login', methods=['POST'])
+def associate_login():
+    session = SessionLocal2()  # Create a session with your database
+    try:
+        # Parse request data
+        data = request.get_json()
+        user = data['username']
+        passwrd = data['passwrd']
+
+        # Query the database for a matching username or password
+        query = session.execute(text(
+            """
+            SELECT * 
+            FROM sales_associates 
+            WHERE username = :user AND passwrd = :passwrd
+            """),
+            {'user': user, 'passwrd': passwrd}
+        ).fetchone()
+
+        # Check if a result was found
+        if query:
+            return jsonify({'message': 'Login successful'}), 200
+        else:
+            return jsonify({'message': 'Invalid username or password'}), 401
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    finally:
+        session.close()  # Close the database session
+
+
 @app.route('/message', methods=['GET']) # Call this route to get the backend message
 def get_message():
     return jsonify(message="Hello from the Flask backend!")

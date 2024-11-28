@@ -1,11 +1,26 @@
 <header class="main-header">
-    <h1>Sales Quote Management Page</h1>
-  </header>
-  
-  <div class="button-container">
-    <button class="action-button" (click)="navigateToEditQuotes()"> Edit Quotes </button>
-    <button class="action-button" (click)="toFinalizeQuotes()"> Finalize Quotes </button>
+  <h1>Login</h1>
+</header>
+
+<div class="form-container">
+  <div *ngIf="loginErrorMessage" class="error-message">
+    {{ loginErrorMessage }}
   </div>
+  <form (ngSubmit)="onLogin()">
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" class="form-input" [(ngModel)]="username" name="username" required>
+    </div>
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" class="form-input" [(ngModel)]="password" name="password" required>
+    </div>
+    <div class="button-container">
+      <button type="submit" class="action-button">Login</button>
+    </div>
+  </form>
+</div>
+
   
   <router-outlet></router-outlet>
   
