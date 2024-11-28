@@ -29,6 +29,7 @@ export class EditComponent {
   email: string = "";
   description: string = "";
   secretNotes: string = "";
+  isFinalized: boolean = false;
 
   // Method to handle received data
   onCustomersLoaded(customers: Customer[]): void {
@@ -64,8 +65,10 @@ export class EditComponent {
       price: this.price,
       email: this.email,
       description: this.description,
-      secretNotes: this.secretNotes
+      secretNotes: this.secretNotes,
+      isFinalized: this.isFinalized
     };
+    console.log(this.isFinalized);
 
     this.apiService.addQuotes(ord).subscribe((data: EnterQuotes) => {
       this.ord = data;

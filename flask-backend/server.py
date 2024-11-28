@@ -10,7 +10,7 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})# Allow access
 
 #External database endpoints in this form: dbtype://user:password@host:port/db1
 engine1 = create_engine("mysql+pymysql://student:student@blitz.cs.niu.edu:3306/csci467")
-engine2 = create_engine("mysql+pymysql://admin:NIUCSCI467@database-1.crkw0uso6xkp.us-east-2.rds.amazonaws.com:3306")
+engine2 = create_engine("mysql+pymysql://admin:NIUCSCI467@database-1.crkw0uso6xkp.us-east-2.rds.amazonaws.com:3306/database-1")
 Base = declarative_base()
 #establish session connection
 SessionLocal1 = sessionmaker(autocommit=False, autoflush=False, bind=engine1)
@@ -86,37 +86,82 @@ def view_all_quotes():
     finally:
         session.close()  # Close the session
         
-@app.route('/purchase_order', methods=['POST'])#Endpoint used by sales associate to add/update a quote to our database
+@app.route('/purchase_order', methods=['POST'])  # Endpoint for sales associate to add/update a quote
 def send_purchase_order():
-    session = SessionLocal2() #use session 2
+    session = SessionLocal2()  # Use session 2
     try:
         data = request.get_json()
-        order = generate_random_string()
         associate = data['associateID']
         custid = data['custID']
         price = data['price']
         email = data['email']
         description = data['description']
         secrets = data['secretNotes']
-        session.execute(text("""
-            INSERT INTO customer_quotes (associateID, custID, price, email, description, secretNotes)
-            VALUES (:associate, :custid, :price, :email, :description, :secrets)
-        """), {
-            'associate': associate,
-            'custid': custid,
-            'price': price,
-            'email': email,
-            'description': description,
-            'secrets': secrets
-        })
+        isFinalized = data['isFinalized']
 
+        # I dont know why, but isFinalized is being sent as a string value, so i had to manually change it to a bool
+        if isFinalized.lower() == 'true':
+            isFinalized = True
+        elif isFinalized.lower() == 'false':
+            isFinalized = False
+
+        print(f"Received isFinalized value: {isFinalized} (Type: {type(isFinalized)})")
+
+        # Check if a quote already exists for this customer and is not finalized
+        existing_quote = session.execute(text("""
+            SELECT * FROM customer_quotes 
+            WHERE custID = :custid AND isFinalized = FALSE
+        """), {'custid': custid}).fetchone()
+
+        if existing_quote:
+            # If an editable quote exists, update it
+            session.execute(text("""
+                UPDATE customer_quotes 
+                SET associateID = :associate, price = :price, email = :email, 
+                    description = :description, secretNotes = :secrets, isFinalized = :isFinalized
+                WHERE custID = :custid AND isFinalized = FALSE
+            """), {
+                'associate': associate,
+                'custid': custid,
+                'price': price,
+                'email': email,
+                'description': description,
+                'secrets': secrets,
+                'isFinalized': isFinalized
+            })
+
+            action = "updated"
+
+        else:
+            # If no editable quote exists, create a new one
+            session.execute(text("""
+                INSERT INTO customer_quotes (associateID, custID, price, email, description, secretNotes, isFinalized)
+                VALUES (:associate, :custid, :price, :email, :description, :secrets, :isFinalized)
+            """), {
+                'associate': associate,
+                'custid': custid,
+                'price': price,
+                'email': email,
+                'description': description,
+                'secrets': secrets,
+                'isFinalized': isFinalized
+            })
+
+            action = "created"
+
+        # Commit the transaction
         session.commit()
 
-        return jsonify({'data recieved, and added to database' : data}), 200
+        # Return success response
+        return jsonify({
+            'message': f"Quote successfully {action}.",
+            'isFinalized': isFinalized
+        }), 200
+
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     finally:
-        session.close() #close the session
+        session.close()  # Close the session
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

@@ -7,6 +7,7 @@ export interface Customer {
 }
 
 export interface EnterQuotes {
+    isFinalized: boolean;
     associateID: string;
     custID: number;
     price: number;

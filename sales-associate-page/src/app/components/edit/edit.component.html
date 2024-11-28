@@ -15,6 +15,12 @@
         <label for="secretNotes">Secret Notes:</label>
         <textarea id="secretNotes" [(ngModel)]="secretNotes" placeholder="Enter any secret notes here" rows="4"></textarea>
 
+        <label for="isFinalized">Is Finalized:</label>
+        <select id="isFinalized" [(ngModel)]="isFinalized">
+            <option [value]="true">Yes</option>
+            <option [value]="false">No</option>
+        </select>        
+
         <button class='submitOrderButton' (click)="submitCustomerOrder()">Submit</button>
     </div>
 
@@ -47,7 +53,8 @@
                 Customer ID: {{ quote.custID }}<br>
                 Customer email: {{quote.email}}<br>
                 Associate ID: {{quote.associateID}}<br>
-                Secrets: {{quote.secretNotes}}
+                Secrets: {{quote.secretNotes}}<br>
+                Is final: {{quote.isFinalized}}
             </li>
             </ul>
         </div>
