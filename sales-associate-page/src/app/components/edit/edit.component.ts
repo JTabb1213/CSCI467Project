@@ -5,6 +5,7 @@ import { Customer, EnterQuotes } from '../../models/customer.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../../services/customer-db.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit',
@@ -14,7 +15,12 @@ import { CustomerService } from '../../services/customer-db.service';
   styleUrl: './edit.component.css'
 })
 export class EditComponent {
-  constructor(private apiService: CustomerService) { }
+  constructor(private apiService: CustomerService, private route: ActivatedRoute) { }
+  ngOnInit() {
+    const paramValue = this.route.snapshot.queryParams['username'];
+    console.log(paramValue);
+  }
+
   showSidebar = false;
   customerList: Customer[] = []; // Array to hold the customer data
   quotesList: EnterQuotes[] = [] // Array to hold the quotes
@@ -25,7 +31,7 @@ export class EditComponent {
   quotesHere: boolean = false;
   customerID: number = 0;
   price: number = 0.00;
-  salesID: string = 'hh332';
+  salesID: string = this.route.snapshot.queryParams['username'];
   email: string = "";
   description: string = "";
   secretNotes: string = "";
@@ -39,6 +45,7 @@ export class EditComponent {
   }
 
   onQuotesLoaded(quotes: EnterQuotes[]): void {
+    console.log("salesID:", this.salesID);
     this.quotesList = quotes;
     this.quotesHere = quotes.length > 0;// So the 'all customers' header wont always appear
     console.log(quotes)

@@ -35,7 +35,7 @@ export class RunQuotesComponent {
     console.log("login: ", login)
     this.apiService.associateLogin(login).subscribe((data: associateLogin) => {
       console.log("login was succesful", data); // Logging response from the backend
-      this.router.navigate(['/edit']);
+      this.router.navigate(['/edit'], { queryParams: { username: this.username } });
     }, error => {
       this.loginErrorMessage = 'Login failed: Incorrect username or password.';
       console.error('Error logging in:', error);
