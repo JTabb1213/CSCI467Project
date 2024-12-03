@@ -12,9 +12,9 @@
   <h2>What Would You Like to Do?</h2>
 
   <div class="navigation-buttons">
-    <button class="action-button" (click)="navigateTo('create')">Create and Manage Quotes</button>
-    <button class="action-button" (click)="navigateTo('finalized-quotes')">Manage Finalized Quotes</button>
-    <button class="action-button" (click)="navigateTo('purchase')">Manage Purchase Orders</button>
+    <button class="action-button" [routerLink]="['/sales-quotes']">Create and Manage Quotes</button>
+    <button class="action-button" [routerLink]="['/finalized-quotes']">Manage Finalized Quotes</button>
+    <button class="action-button" [routerLink]="['/purchase']">Manage Purchase Orders</button>
   </div>
   
 </main>

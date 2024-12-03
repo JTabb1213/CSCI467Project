@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sales-quotes',
+  standalone: true,
   templateUrl: './sales-quotes.component.html',
   styleUrls: ['./sales-quotes.component.css'],
+  imports:[RouterModule]
 })
 export class SalesQuotesComponent {
   constructor(private router: Router) {}
@@ -12,13 +14,13 @@ export class SalesQuotesComponent {
   navigateTo(page: string): void {
     switch (page) {
       case 'create':
-        this.router.navigate(['/sales-quotes']); // Navigate to create/manage quotes
+        this.router.navigate(['/sales-quotes']); 
         break;
       case 'finalized-quotes':
-        this.router.navigate(['/finalized-quotes']); // Navigate to finalized quotes
+        this.router.navigate(['/login3']); 
         break;
       case 'purchase':
-        this.router.navigate(['/purchase']); // Navigate to purchase orders
+        this.router.navigate(['/']); 
         break;
       default:
         console.error('Unknown navigation page:', page);
