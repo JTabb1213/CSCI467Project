@@ -103,21 +103,22 @@ def test_db_connection():
     finally:
         session.close()  # Close the session
 
-@app.route('/view_all_quotes', methods=['GET'])#This is just used to test if connection to a database is successful
+@app.route('/view_all_quotes', methods=['GET'])
 def view_all_quotes():
-    session = SessionLocal2() #test session 2, 
+    session = SessionLocal2()  # Initialize a new session
     try:
-        result = session.execute(text('SELECT * FROM customer_quotes'))
+        associate_id = request.args.get('associateID')
+        query = text("SELECT * FROM customer_quotes WHERE associateID = :associate_id")
+        result = session.execute(query, {'associate_id': associate_id})
         rows = result.fetchall()
         columns = result.keys()
         results_list = [dict(zip(columns, row)) for row in rows]
         return jsonify(results_list)
     except Exception as e:
-        #error_message = traceback.format_exc()
-        return jsonify(str(e)), 500
+        return jsonify({'error': str(e)}), 500
     finally:
         session.close()  # Close the session
-        
+
 @app.route('/purchase_order', methods=['POST'])  # Endpoint for sales associate to add/update a quote
 def send_purchase_order():
     session = SessionLocal2()  # Use session 2
@@ -132,10 +133,10 @@ def send_purchase_order():
         isFinalized = data['isFinalized']
 
         # I dont know why, but isFinalized is being sent as a string value, so i had to manually change it to a bool
-        if isFinalized.lower() == 'true':
-            isFinalized = True
-        elif isFinalized.lower() == 'false':
-            isFinalized = False
+        #if isFinalized.lower() == 'true':
+        #    isFinalized = True
+        #elif isFinalized.lower() == 'false':
+        #    isFinalized = False
 
         print(f"Received isFinalized value: {isFinalized} (Type: {type(isFinalized)})")
 

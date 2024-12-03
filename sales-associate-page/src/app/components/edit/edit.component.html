@@ -17,17 +17,19 @@
 
         <label for="isFinalized">Is Finalized:</label>
         <select id="isFinalized" [(ngModel)]="isFinalized">
-            <option [value]="true">Yes</option>
-            <option [value]="false">No</option>
-        </select>        
+            <option [ngValue]="true">Yes</option>
+            <option [ngValue]="false">No</option>
+        </select>     
 
         <button class='submitOrderButton' (click)="submitCustomerOrder()">Submit</button>
     </div>
 
-    <div classs="boxForCustomersListAndButton">
+    <div class="boxForCustomersListAndButton">
         <div class="button">
-            <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking()" (click)="hideQuotesList()"></app-button-to-view-all-customers>
-            <app-view-all-quotes-button (quotesLoaded)="onQuotesLoaded($event)" (click)="setWorking()" (click)="hideCustomerList()"></app-view-all-quotes-button>
+            <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking(); hideQuotesList()"></app-button-to-view-all-customers>
+            <button (click)="getAllQuotes(salesID); setWorking(); hideCustomerList()">
+                View All Quotes
+            </button>
         </div>
 
         <div *ngIf="customersHere" class="customer-list-container">
@@ -54,7 +56,7 @@
                 Customer email: {{quote.email}}<br>
                 Associate ID: {{quote.associateID}}<br>
                 Secrets: {{quote.secretNotes}}<br>
-                Is final: {{quote.isFinalized}}
+                Is final: {{ quote.isFinalized ? 'Yes' : 'No' }}
             </li>
             </ul>
         </div>

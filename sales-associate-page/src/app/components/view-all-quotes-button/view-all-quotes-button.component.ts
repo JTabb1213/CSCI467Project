@@ -14,8 +14,8 @@ export class ViewAllQuotesButtonComponent {
   //next two lines, along with .emit line allow this component to send its data to any component that uses it
   constructor(private apiService: CustomerService) { }
   @Output() quotesLoaded = new EventEmitter<EnterQuotes[]>();
-  getAllQuotes(): void {
-    this.apiService.getQuotes().subscribe(data => {
+  getAllQuotes(associateID: string): void {
+    this.apiService.getQuotes(associateID).subscribe(data => {
       this.allQuotes = data;
       this.quotesLoaded.emit(this.allQuotes);
       //console.log(this.allCustomers)
