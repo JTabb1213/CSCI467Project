@@ -30,4 +30,20 @@ export class CustomerService {
   associateLogin(user: associateLogin): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/attempt_associate_login`, user);
   }
+
+  adminLogin(user: associateLogin): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/attempt_admin_login`, user);
+  }
+
+  finalizedLogin(user: associateLogin): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/attempt_finalized_login`, user);
+  }
+
+  purchaseOrderLogin(user: associateLogin): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/attempt_purchaseOrder_login`, user);
+  }
+
+  getFinalizedQuotes(): Observable<EnterQuotes[]> {
+    return this.http.get<EnterQuotes[]>(`${this.apiUrl}/get_finalized_quotes`);
+  }
 }

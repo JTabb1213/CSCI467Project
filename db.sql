@@ -19,4 +19,22 @@ CREATE TABLE sales_associates (
     passwrd VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE finalized (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    passwrd VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE purchaseOrder (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    passwrd VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE adminDB(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    passwrd VARCHAR(255) NOT NULL
+);
+
 
