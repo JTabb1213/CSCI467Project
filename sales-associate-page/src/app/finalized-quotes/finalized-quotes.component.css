@@ -1,14 +1,14 @@
 
 #retrieve-and-line-items {
     display: flex;
-    gap: 1rem; /* Space between sections */
-    justify-content: space-between; /* Adjust alignment */
-    align-items: flex-start; /* Align items at the top */
+    gap: 1rem; 
+    justify-content: space-between; 
+    align-items: flex-start; 
   }
   
   #quote-actions, #line-items {
-    flex: 1; /* Allow sections to adjust their width dynamically */
-    min-width: 300px; /* Prevent sections from becoming too small */
+    flex: 1; 
+    min-width: 300px;
   }
 
 body {
