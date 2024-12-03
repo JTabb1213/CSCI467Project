@@ -24,13 +24,13 @@ export class Login2Component {
   onLogin() {
     console.log("attemted login")
     console.log(this.username, this.password)
-    const login: associateLogin = { 
+    const login: associateLogin = {
       username: this.username,
       passwrd: this.password
     };
 
     console.log("login: ", login)
-    this.apiService.associateLogin(login).subscribe((data: associateLogin) => {
+    this.apiService.purchaseOrderLogin(login).subscribe((data: associateLogin) => {
       console.log("login was succesful", data);
       this.router.navigate(['/purchase-order'], { queryParams: { username: this.username } });
     }, error => {

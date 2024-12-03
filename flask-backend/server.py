@@ -105,7 +105,7 @@ def finalized_login():
         session.close()  # Close the database session
 
 @app.route('/attempt_admin_login', methods=['POST'])
-def associate_login():
+def admin_login():
     session = SessionLocal2()  # Create a session with your database
     try:
         # Parse request data
@@ -137,7 +137,7 @@ def associate_login():
 
 
 @app.route('/attempt_purchaseOrder_login', methods=['POST'])
-def associate_login():
+def purcharOrder_login():
     session = SessionLocal2()  # Create a session with your database
     try:
         # Parse request data
@@ -312,6 +312,7 @@ def get_finalized_quotes():
         return jsonify({'error': str(e)}), 500
     finally:
         session.close()  # Close the database session
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
 
