@@ -1,30 +1,27 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales-quotes',
-  standalone: true,
-  imports: [RouterModule],
   templateUrl: './sales-quotes.component.html',
-  styleUrl: './sales-quotes.component.css'
+  styleUrls: ['./sales-quotes.component.css'],
 })
 export class SalesQuotesComponent {
-  constructor(private router: Router) {} // Inject Router service
+  constructor(private router: Router) {}
 
-  navigateTo(page: string) {
+  navigateTo(page: string): void {
     switch (page) {
       case 'create':
-        this.router.navigate(['/create']); // Adjust path as needed
+        this.router.navigate(['/sales-quotes']); // Navigate to create/manage quotes
         break;
-      case 'edit':
-        this.router.navigate(['/edit']); // Adjust path as needed
+      case 'finalized-quotes':
+        this.router.navigate(['/finalized-quotes']); // Navigate to finalized quotes
         break;
-      case 'convert':
-        this.router.navigate(['/convert']); // Adjust path as needed
+      case 'purchase':
+        this.router.navigate(['/purchase']); // Navigate to purchase orders
         break;
       default:
-        console.error('Unknown page:', page);
-        break;
+        console.error('Unknown navigation page:', page);
     }
   }
 }
