@@ -1,0 +1,90 @@
+body {
+    background-color: #f7f7f7; 
+    font-family: 'Arial, sans-serif';
+    color: #333333; 
+}
+  
+header {
+    background-color: #E6D7D0;
+    color: #333333;
+    width: 100%;
+    padding: 0; 
+    margin: 0; 
+    height: 100px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);      
+}
+  
+main {
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+  
+section {
+    background-color: white;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+h2 {
+    border-bottom: 1px solid black;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+  
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+  
+input, select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+  
+.button {
+    background-color: #d3e0ea;
+    color: #333333;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    margin: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+  
+.button:hover {
+    background-color: #aacfd0; 
+    transform: scale(1.05);
+}
+  
+.button:active {
+    background-color: #8aa7ab; 
+    transform: scale(1.02);
+}
+  
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    border: 1px solid black;
+}
+  
+th, td {
+    border: 1px solid black;
+    padding: 0.5rem;
+    text-align: left;
+}

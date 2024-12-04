@@ -1,0 +1,68 @@
+<div>
+    <!-- Header -->
+    <header>
+      <h1>Admin Dashboard</h1>
+    </header>
+  
+    <!-- Main Content -->
+    <main>
+      <!-- Sales Associates Management Section -->
+      <section>
+        <h2>Sales Associates</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Commission</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let associate of salesAssociates">
+              <td>{{ associate.id }}</td>
+              <td>{{ associate.name }}</td>
+              <td>{{ associate.username }}</td>
+              <td>{{ associate.commission }}</td>
+              <td>{{ associate.address }}</td>
+              <td>
+                <button (click)="editAssociate(associate)" class="button">Edit</button>
+                <button (click)="deleteAssociate(associate.id)" class="button">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+  
+      <!-- Quote Search Section -->
+      <section>
+        <h2>Quote Search</h2>
+        <form>
+          <label>
+            Status:
+            <input type="text" [(ngModel)]="filters.status" placeholder="Enter status" />
+          </label>
+          <label>
+            Start Date:
+            <input type="date" [(ngModel)]="filters.startDate" />
+          </label>
+          <label>
+            End Date:
+            <input type="date" [(ngModel)]="filters.endDate" />
+          </label>
+          <label>
+            Sales Associate:
+            <input type="text" [(ngModel)]="filters.associate" placeholder="Enter associate ID" />
+          </label>
+          <label>
+            Customer:
+            <input type="text" [(ngModel)]="filters.customer" placeholder="Enter customer ID" />
+          </label>
+          <button type="button" (click)="searchQuotes()" class="button">Search</button>
+        </form>
+      </section>
+    </main>
+  </div>
+  
