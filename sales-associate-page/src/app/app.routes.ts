@@ -8,6 +8,9 @@ import { FinalizedQuotesComponent } from './finalized-quotes/finalized-quotes.co
 import { PurchaseOrderComponent } from '../purchase-order/purchase-order.component';
 import { Login2Component } from './login2/login2.component';
 import { Login3Component } from './login3/login3.component';
+import { Login4Component } from './login4/login4.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+
 
 export const routes: Routes = [
     {
@@ -41,6 +44,14 @@ export const routes: Routes = [
     {
       path: 'purchase',
       component: Login2Component,
+    },
+    {
+      path: 'admin',
+      component: Login4Component,
+    },
+    {
+      path: 'admin-page',
+      component: AdminPageComponent,
     },
 
   ];
