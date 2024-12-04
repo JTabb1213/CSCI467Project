@@ -313,6 +313,67 @@ def get_finalized_quotes():
     finally:
         session.close()  # Close the database session
 
+@app.route('/api/sales-associates', methods=['GET'])
+def get_sales_associates():
+    session = SessionLocal2()
+    try:
+        query = session.execute(text("SELECT * FROM sales_associates"))
+        associates = [dict(row) for row in query.fetchall()]
+        return jsonify(associates)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+@app.route('/api/sales-associates', methods=['POST'])
+def add_sales_associate():
+    session = SessionLocal2()
+    try:
+        data = request.json
+        query = text("""
+            INSERT INTO sales_associates (name, username, commission, address) 
+            VALUES (:name, :username, :commission, :address)
+        """)
+        session.execute(query, data)
+        session.commit()
+        return jsonify({'message': 'Sales associate added successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+@app.route('/api/sales-associates/<int:id>', methods=['PUT'])
+def edit_sales_associate(id):
+    session = SessionLocal2()
+    try:
+        data = request.json
+        query = text("""
+            UPDATE sales_associates 
+            SET name = :name, username = :username, commission = :commission, address = :address
+            WHERE id = :id
+        """)
+        session.execute(query, {**data, 'id': id})
+        session.commit()
+        return jsonify({'message': 'Sales associate updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+@app.route('/api/sales-associates/<int:id>', methods=['DELETE'])
+def delete_sales_associate(id):
+    session = SessionLocal2()
+    try:
+        query = text("DELETE FROM sales_associates WHERE id = :id")
+        session.execute(query, {'id': id})
+        session.commit()
+        return jsonify({'message': 'Sales associate deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
 
