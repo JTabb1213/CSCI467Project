@@ -19,12 +19,14 @@ export class RunQuotesComponent {
   username: string = '';
   password: string = '';
   loginErrorMessage: string = '';
+  showColorWheel: boolean = false;
 
   //navigateToEditQuotes() {
   // this.router.navigate(['/edit']);
   //}
 
   onLogin() {
+    this.showColorWheel = true;
     console.log("attemted login")
     console.log(this.username, this.password)
     const login: associateLogin = { //get details for the order, store them in model
@@ -34,9 +36,11 @@ export class RunQuotesComponent {
 
     console.log("login: ", login)
     this.apiService.associateLogin(login).subscribe((data: associateLogin) => {
+      this.showColorWheel = false;
       console.log("login was succesful", data); // Logging response from the backend
       this.router.navigate(['/edit'], { queryParams: { username: this.username } });
     }, error => {
+      this.showColorWheel = false;
       this.loginErrorMessage = 'Login failed: Incorrect username or password.';
       console.error('Error logging in:', error);
     });

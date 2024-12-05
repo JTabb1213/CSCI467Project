@@ -19,9 +19,11 @@ export class Login2Component {
   username: string = '';
   password: string = '';
   loginErrorMessage: string = '';
+  showColorWheel: boolean = false;
 
 
   onLogin() {
+    this.showColorWheel = true;
     console.log("attemted login")
     console.log(this.username, this.password)
     const login: associateLogin = {
@@ -31,10 +33,12 @@ export class Login2Component {
 
     console.log("login: ", login)
     this.apiService.purchaseOrderLogin(login).subscribe((data: associateLogin) => {
+      this.showColorWheel = false;
       console.log("login was succesful", data);
       this.router.navigate(['/purchase-order'], { queryParams: { username: this.username } });
     }, error => {
       this.loginErrorMessage = 'Login failed: Incorrect username or password.';
+      this.showColorWheel = false;
       console.error('Error logging in:', error);
     });
   }
