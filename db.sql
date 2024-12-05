@@ -37,4 +37,13 @@ CREATE TABLE adminDB(
     passwrd VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE orders(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    final_price DECIMAL (20,2),
+    quote_id VARCHAR(50),
+    sales_id VARCHAR(10),
+    cust_id VARCHAR(10),
+    processDay VARCHAR(20)
+)
+
 

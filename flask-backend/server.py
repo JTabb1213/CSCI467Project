@@ -502,6 +502,22 @@ def get_quote():
         session.close()
 
 
+@app.route('/getAllAssociates', methods=['GET'])
+def view_all_associates():
+    session = SessionLocal2() 
+    try:
+        query = text("SELECT * FROM sales_associates")
+        result = session.execute(query)
+        rows = result.fetchall()
+        columns = result.keys()
+        results_list = [dict(zip(columns, row)) for row in rows]
+        return jsonify(results_list)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()   
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
 
