@@ -10,7 +10,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})# Allow access to all routes(r"/*") from origin localhost
 
 #External database endpoints in this form: dbtype://user:password@host:port/db1
+# this is for the customer legacy database
 engine1 = create_engine("mysql+pymysql://student:student@blitz.cs.niu.edu:3306/csci467")
+# This is for the mysql database hosted on aws. We are using it for other tables such as the associate login info
 engine2 = create_engine("mysql+pymysql://admin:NIUCSCI467@database-1.crkw0uso6xkp.us-east-2.rds.amazonaws.com:3306/database-1")
 Base = declarative_base()
 #establish session connection
@@ -22,6 +24,7 @@ def generate_random_string():
     random_number = random.randint(100000, 999999)
     return f"xyz-{random_number}-cba"
 
+# function that retrives the customer email from the 'customers' table, given their id
 def get_customer_email(custID):
     try:
         session = SessionLocal1()  
@@ -36,6 +39,7 @@ def get_customer_email(custID):
     finally:
         session.close()
 
+# function to calculate commision
 def get_and_calculate_commission(quoteID, percent):
     try:
         session = SessionLocal2()
