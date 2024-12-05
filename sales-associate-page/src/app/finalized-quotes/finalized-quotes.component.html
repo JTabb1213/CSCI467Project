@@ -1,70 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quote Management System</title>
-  <link rel="stylesheet" href="finalized-quotes.component.css">
-</head>
-<body>
-  <header>
-    <h1>In-house Company Headquarters</h1>
-  </header>
-  <main>
-    <section id="quote-actions">
-      <h2>Retrieve Quote</h2>
-      <label for="quote-id">Quote ID:</label>
-      <input type="text" id="quote-id" placeholder="Enter Quote ID">
-      <button id="retrieve-quote" class="button">Retrieve Quote</button>
-    </section>
-    <section id="line-items">
-      <h2>Line Items</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Sample Item</td>
-            <td>$100</td>
-            <td>
-              <button class="button">Edit</button>
-              <button class="button">Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button id="add-item" class="button">Add Line Item</button>
-    </section>
-    <section id="discount">
-      <h2>Apply Discount</h2>
-      <label for="discount-value">Discount:</label>
-      <input type="number" id="discount-value" placeholder="Enter value">
-      <select id="discount-type">
-        <option value="percentage">Percentage</option>
-        <option value="amount">Amount</option>
-      </select>
-      <button id="apply-discount" class="button">Apply Discount</button>
-    </section>
-    <section id="final-quote">
-      <h2>Final Price</h2>
-      <p>Total: <span id="total-price">$0.00</span></p>
-      <button id="sanction-quote" class="button">Sanction Quote</button>
-      <button id="leave-unresolved" class="button">Leave Unresolved</button>
-    </section>
-    <section id="secret-notes">
-      <h2>Secret Notes</h2>
-      <textarea id="notes" rows="5" placeholder="Add secret notes..."></textarea>
-      <button id="save-notes" class="button">Save Notes</button>
-    </section>
-    <section id="email">
-      <h2>Send Email</h2>
-      <button id="send-email" class="button">Send to Customer</button>
-    </section>
-  </main>
-</body>
-</html>
+<main>
+  <section id="quote-actions">
+    <h2>Retrieve Quote</h2>
+    <label for="quote-id">Quote ID:</label>
+    <input type="text" id="quote-id" [(ngModel)]="quoteID" placeholder="Enter Quote ID">
+    <button id="retrieve-quote" class="button" (click)="retrieveQuote()">Retrieve Quote</button>
+  </section>
+
+  <section id="line-items">
+    <h2>Line Items</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of lineItems; index as i">
+          <td><input [(ngModel)]="item.item" placeholder="Enter item name"></td>
+          <td><input type="number" [(ngModel)]="item.price" placeholder="Enter price"></td>
+          <td>
+            <button class="button" (click)="editLineItem(i, item)">Edit</button>
+            <button class="button" (click)="removeLineItem(i)">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="add-item" class="button" (click)="addLineItem()">Add Line Item</button>
+  </section>
+
+  <section id="discount">
+    <h2>Apply Discount</h2>
+    <label for="discount-value">Discount:</label>
+    <input type="number" id="discount-value" [(ngModel)]="discountValue" placeholder="Enter value">
+    <select id="discount-type" [(ngModel)]="discountType">
+      <option value="percentage">Percentage</option>
+      <option value="amount">Amount</option>
+    </select>
+    <button id="apply-discount" class="button" (click)="applyDiscount()">Apply Discount</button>
+  </section>
+
+  <section id="final-quote">
+    <h2>Final Price</h2>
+    <p>Total: <span id="total-price">{{ totalPrice | currency }}</span></p>
+  </section>
+
+  <section id="secret-notes">
+    <h2>Secret Notes</h2>
+    <textarea id="notes" rows="5" [(ngModel)]="secretNotes" placeholder="Add secret notes..."></textarea>
+    <button id="save-notes" class="button" (click)="saveNotes()">Save Notes</button>
+  </section>
+
+  <section id="email">
+    <h2>Send Email</h2>
+    <button id="send-email" class="button" (click)="sendEmail()">Send to Customer</button>
+  </section>
+</main>
