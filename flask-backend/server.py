@@ -4,6 +4,7 @@ import random, traceback
 from sqlalchemy import create_engine, Column, Integer, String, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import requests
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})# Allow access to all routes(r"/*") from origin localhost
@@ -20,6 +21,48 @@ SessionLocal2 = sessionmaker(autocommit=False, autoflush=False, bind=engine2)
 def generate_random_string():
     random_number = random.randint(100000, 999999)
     return f"xyz-{random_number}-cba"
+
+def get_customer_email(custID):
+    try:
+        session = SessionLocal1()  
+        query = text("SELECT contact FROM customers WHERE id = :custID")
+        result = session.execute(query, {'custID': custID}).fetchone()
+        if result:
+            return result[0]
+        else:
+            return 'No email found'
+    except Exception as e:
+        return str(e)
+    finally:
+        session.close()
+
+def get_and_calculate_commission(quoteID, percent):
+    try:
+        session = SessionLocal2()
+        query = text("SELECT price FROM customer_quotes WHERE id = :quoteID")
+        result = session.execute(query, {'quoteID': quoteID}).fetchone()
+        if result:
+            return round(float(result[0]) * (percent/100), 2)
+        else:
+            return 'No email found'
+    except Exception as e:
+        return str(e)
+    finally:
+        session.close()
+
+def get_and_calculate_final_price(quoteID, amount):
+    try:
+        session = SessionLocal2()
+        query = text("SELECT price FROM customer_quotes WHERE id = :quoteID")
+        result = session.execute(query, {'quoteID': quoteID}).fetchone()
+        if result:
+            return round(float(result[0]) - amount, 2)
+        else:
+            return 'No email found'
+    except Exception as e:
+        return str(e)
+    finally:
+        session.close()
 
 #Model for the DB
 class Customer(Base):
@@ -40,6 +83,52 @@ class Customer(Base):
             'street': self.street,
             'contact': self.contact
         }
+
+@app.route('/send_purchase_order', methods=['POST'])
+def send_purchase():
+    try:
+        data = request.get_json()
+        quoteID = data["quoteID"]
+        amount = str(data['discount'])
+        associate = data['AssociateID']
+        custID = int(data['custID'])
+        email = data['email']
+        custid = data['custID']
+        order = generate_random_string()
+        contact = get_customer_email(custID)
+        am = float(data['discount'])
+
+        payload = {
+            'order': order, 
+            'associate': associate, 
+            'custid': custid,
+            'amount': amount,  
+        }
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+
+        response = requests.post('http://blitz.cs.niu.edu/PurchaseOrder/', json=payload, headers=headers)
+
+        if response.status_code == 200:
+            result = response.json()
+            commission_str = result['commission']
+            commission_percentage = float(commission_str.replace('%', ''))
+            paid = get_and_calculate_commission(quoteID, commission_percentage)
+            final_amount = get_and_calculate_final_price(quoteID, am)
+            #print("paid: ", paid)
+            #print("final_amount: ", final_amount)
+            result['paid'] = paid
+            result['final_amount'] = final_amount
+            jsonify(result)
+            print(result)
+            return jsonify(result), 200
+        else:
+            return jsonify({'error': 'Failed to process the purchase order', 'details': response.text}), response.status_code
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/attempt_associate_login', methods=['POST'])
 def associate_login():
@@ -292,22 +381,16 @@ def send_purchase_order():
     finally:
         session.close()  # Close the session
 
-@app.route('/get_finalized_quotes', methods=['POST'])
+@app.route('/get_finalized_quotes', methods=['GET'])
 def get_finalized_quotes():
     session = SessionLocal2()
     try:
-        query = session.execute(text(
-            """
-            SELECT * 
-            FROM purchaseOrder 
-            WHERE isFinalized = :isFinalized;
-            """
-        ), {'isFinalized': True}).fetchall()
-
-        # Format results into a list of dictionaries
-        results = [dict(row) for row in query]
-        
-        return jsonify(results), 200
+        query = text("SELECT * FROM customer_quotes WHERE isFinalized = :isFinalized;")
+        result = session.execute(query, {'isFinalized': True})
+        rows = result.fetchall()
+        columns = result.keys()
+        results_list = [dict(zip(columns, row)) for row in rows]
+        return jsonify(results_list)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:

@@ -223,7 +223,7 @@
         </div>
 
         <div class="boxForCustomersListAndButton">
-            <button class="button" (click)="setWorking(); hideQuotesList()">View Customers</button>
+            <app-button-to-view-all-customers class="button" (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking(); hideQuotesList()">View Customers</app-button-to-view-all-customers>
             <button class="button" (click)="getAllQuotes(salesID); setWorking(); hideCustomerList()">View All Quotes</button>
         </div>
 

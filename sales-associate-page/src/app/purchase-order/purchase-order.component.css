@@ -54,7 +54,9 @@ label {
     color: #333333;
 }
 
-input[type="text"], input[type="number"], input[type="email"] {
+input[type="text"],
+input[type="number"],
+input[type="email"] {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -63,7 +65,9 @@ input[type="text"], input[type="number"], input[type="email"] {
     font-size: 16px;
 }
 
-input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus {
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
@@ -99,4 +103,30 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus 
     font-weight: bold;
     margin-top: 10px;
     text-align: center;
+}
+
+.b {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.close-button {
+    cursor: pointer;
+    color: #dc3545;
+    font-size: 20px;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    transition: color 0.3s;
+}
+
+.customer-list-container {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
