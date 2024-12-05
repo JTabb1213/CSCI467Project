@@ -374,6 +374,66 @@ def delete_sales_associate(id):
         session.close()
 
 
+@app.route('/api/get-quote', methods=['GET'])
+def get_quote():
+    session = SessionLocal2()  # Use the correct session for your database
+    try:
+        quote_id = request.args.get('quoteID')  # Retrieve the quoteID from query params
+        print(f"Received quoteID: {quote_id}")  # Debugging log
+
+        # Query the database for the quote with the given quoteID
+        query = session.execute(text(
+            "SELECT * FROM customer_quotes WHERE id = :quoteID"
+        ), {'quoteID': quote_id}).fetchone()
+
+        print(f"Raw query result: {query}")  # Debugging log
+        print(f"Query type: {type(query)}")  # Log the type of the query result
+
+        # Inspect attributes and methods of the query object
+        print(f"Query dir: {dir(query)}")  # List available attributes/methods
+
+        if query:
+            # Check if it has '_mapping' or 'keys'
+            if hasattr(query, '_mapping'):
+                print(f"Keys from _mapping: {query._mapping.keys()}")
+            else:
+                print("No _mapping attribute found.")
+
+            return jsonify({'message': 'Check the logs for keys.'}), 200
+        else:
+            print("Quote not found")
+            return jsonify({'message': 'Quote not found'}), 404
+
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")  # Debugging log
+        return jsonify({'error': str(e)}), 500
+
+    finally:
+        session.close()
+
+   
+
+@app.route('/debug/customer-quotes', methods=['GET'])
+def debug_customer_quotes():
+    session = SessionLocal2()
+    try:
+        query = session.execute(text("SELECT * FROM customer_quotes"))
+        rows = query.fetchall()
+        columns = query.keys()
+
+        # Combine columns and rows properly
+        results_list = [dict(zip(columns, row)) for row in rows]
+
+        return jsonify(results_list), 200
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")  # Debugging log
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
 
