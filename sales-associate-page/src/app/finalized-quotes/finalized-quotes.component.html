@@ -1,8 +1,8 @@
 <main>
   <section id="quote-actions">
     <h2>Retrieve Quote</h2>
-    <label for="quote-id">Quote ID:</label>
-    <input type="text" id="quote-id" [(ngModel)]="quoteID" placeholder="Enter Quote ID">
+    <label for="cust-id">Customer ID:</label>
+    <input type="text" id="cust-id" [(ngModel)]="custID" placeholder="Enter Customer ID">
     <button id="retrieve-quote" class="button" (click)="retrieveQuote()">Retrieve Quote</button>
   </section>
 
@@ -13,6 +13,8 @@
         <tr>
           <th>Item</th>
           <th>Price</th>
+          <th>Email</th>
+          <th>Secret Notes</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -20,6 +22,8 @@
         <tr *ngFor="let item of lineItems; index as i">
           <td><input [(ngModel)]="item.item" placeholder="Enter item name"></td>
           <td><input type="number" [(ngModel)]="item.price" placeholder="Enter price"></td>
+          <td><input [(ngModel)]="item.email" placeholder="Enter email"></td>
+          <td><input [(ngModel)]="item.secretNotes" placeholder="Enter secret notes"></td>
           <td>
             <button class="button" (click)="editLineItem(i, item)">Edit</button>
             <button class="button" (click)="removeLineItem(i)">Remove</button>
