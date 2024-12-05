@@ -8,7 +8,7 @@
     <main>
       <!-- Sales Associates Management Section -->
       <section>
-        <h2>Sales Associates</h2>
+        <h2>Sales Associates        <button (click)="getSalesAssociates()">Show sales associates</button></h2>
         <table>
           <thead>
             <tr>
@@ -39,7 +39,7 @@
       <!-- Quote Search Section -->
       <section>
         <h2>Quote Search</h2>
-        <form>
+
           <label>
             Status:
             <input type="text" [(ngModel)]="filters.status" placeholder="Enter status" />
@@ -61,7 +61,7 @@
             <input type="text" [(ngModel)]="filters.customer" placeholder="Enter customer ID" />
           </label>
           <button type="button" (click)="searchQuotes()" class="button">Search</button>
-        </form>
+
       </section>
     </main>
   </div>

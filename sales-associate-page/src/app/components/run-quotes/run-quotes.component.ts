@@ -37,7 +37,7 @@ export class RunQuotesComponent {
     console.log("login: ", login)
     this.apiService.associateLogin(login).subscribe((data: associateLogin) => {
       this.showColorWheel = false;
-      console.log("login was succesful", data); // Logging response from the backend
+      console.log("login was succesful", data);
       this.router.navigate(['/edit'], { queryParams: { username: this.username } });
     }, error => {
       this.showColorWheel = false;

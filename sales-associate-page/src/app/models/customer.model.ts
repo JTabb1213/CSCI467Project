@@ -39,3 +39,9 @@ export interface Quotes {
     description: string;
     secretNotes: string;
 }
+
+export interface SalesAssociate {
+    id: number,
+    username: string,
+    password: string
+}
