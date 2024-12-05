@@ -20,10 +20,18 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of lineItems; index as i">
-          <td><input [(ngModel)]="item.item" placeholder="Enter item name"></td>
-          <td><input type="number" [(ngModel)]="item.price" placeholder="Enter price"></td>
-          <td><input [(ngModel)]="item.email" placeholder="Enter email"></td>
-          <td><input [(ngModel)]="item.secretNotes" placeholder="Enter secret notes"></td>
+          <td>
+            <input [(ngModel)]="item.item" (blur)="editLineItem(i, item)" placeholder="Enter item name">
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="item.price" (blur)="editLineItem(i, item)" placeholder="Enter price">
+          </td>
+          <td>
+            <input [(ngModel)]="item.email" (blur)="editLineItem(i, item)" placeholder="Enter email">
+          </td>
+          <td>
+            <input [(ngModel)]="item.secretNotes" (blur)="editLineItem(i, item)" placeholder="Enter secret notes">
+          </td>
           <td>
             <button class="button" (click)="editLineItem(i, item)">Edit</button>
             <button class="button" (click)="removeLineItem(i)">Remove</button>

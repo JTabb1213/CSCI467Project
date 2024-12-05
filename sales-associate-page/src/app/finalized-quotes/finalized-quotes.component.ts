@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient for API calls
 import { FormsModule } from '@angular/forms'; // For [(ngModel)]
 import { CommonModule } from '@angular/common'; // For *ngFor, *ngIf, and CurrencyPipe
+import { CustomerService } from '../services/customer-db.service';
 
 @Component({
   selector: 'app-finalized-quotes',
@@ -13,12 +14,12 @@ import { CommonModule } from '@angular/common'; // For *ngFor, *ngIf, and Curren
 export class FinalizedQuotesComponent {
   custID: string = ''; // Customer ID input
   lineItems: { item: string; price: number; email?: string; secretNotes?: string }[] = [];
-  discountValue: number = 0;
+  discountValue: number = 0.00;
   discountType: 'percentage' | 'amount' = 'percentage';
   totalPrice: number = 0;
   secretNotes: string = ''; // Notes for the quote
 
-  constructor(private http: HttpClient) {} // Inject HttpClient
+  constructor(private http: HttpClient, private apiService: CustomerService) {} // Inject HttpClient
 
   retrieveQuote(): void {
     console.log('Retrieving quote with custID:', this.custID);
@@ -59,12 +60,29 @@ export class FinalizedQuotesComponent {
     console.log('Added line item:', newItem);
   }
 
-  // Edit an existing line item
-  editLineItem(index: number, updatedItem: { item: string; price: number }): void {
-    this.lineItems[index] = updatedItem;
-    console.log(`Edited line item at index ${index}:`, updatedItem);
-    this.calculateTotal();
-  }
+  // Edit an existing line item and update in the database
+editLineItem(index: number, updatedItem: { item: string; price: number; email?: string; secretNotes?: string }): void {
+  const updatedLineItem = this.lineItems[index];
+  const updatePayload = {
+    quoteID: this.custID,
+    item: updatedLineItem.item,
+    price: updatedLineItem.price,
+    email: updatedLineItem.email,
+    secretNotes: updatedLineItem.secretNotes,
+  };
+
+  this.http.put('http://localhost:5001/api/update-quote', updatePayload)
+    .subscribe(
+      (response: any) => {
+        console.log(`Successfully updated line item at index ${index}:`, response);
+        this.calculateTotal();
+      },
+      (error) => {
+        console.error(`Error updating line item at index ${index}:`, error);
+      }
+    );
+}
+
 
   // Remove a line item
   removeLineItem(index: number): void {
@@ -74,14 +92,25 @@ export class FinalizedQuotesComponent {
   }
 
   // Apply discount
-  applyDiscount(): void {
-    if (this.discountType === 'percentage') {
-      this.totalPrice -= (this.totalPrice * this.discountValue) / 100;
-    } else {
-      this.totalPrice -= this.discountValue;
-    }
-    console.log(`Applied discount: ${this.discountValue} (${this.discountType})`);
+  applyDiscount() {
+    const discountPayload = {
+      quoteID: this.custID, 
+      discountValue: this.discountValue,
+      discountType: this.discountType
+    };
+  
+    this.http.post('http://localhost:5001/apply_discount', discountPayload).subscribe(
+      (response: any) => {
+        if (response.discountedPrice !== undefined) {
+          this.totalPrice = response.discountedPrice;
+        }
+      },
+      (error) => {
+        console.error('Error applying discount:', error);
+      }
+    );
   }
+  
 
   // Calculate the total price
   calculateTotal(): void {

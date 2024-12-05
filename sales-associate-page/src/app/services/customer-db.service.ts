@@ -50,4 +50,8 @@ export class CustomerService {
   sendPurchaseOrder(order: PurchaseOrderQuotes): Observable<any> {
     return this.http.post<PurchaseOrderQuotes>(`${this.apiUrl}/send_purchase_order`, order);
   }
+
+  applyFinalDiscount(discount: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/applyFinalDiscount`, discount);
+  }
 }
