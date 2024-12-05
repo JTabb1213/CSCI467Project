@@ -11,28 +11,32 @@ import { CommonModule } from '@angular/common'; // For *ngFor, *ngIf, and Curren
   styleUrls: ['./finalized-quotes.component.css'],
 })
 export class FinalizedQuotesComponent {
-  quoteID: string = '';
-  lineItems: { item: string; price: number }[] = [];
+  custID: string = ''; // Customer ID input
+  lineItems: { item: string; price: number; email?: string; secretNotes?: string }[] = [];
   discountValue: number = 0;
   discountType: 'percentage' | 'amount' = 'percentage';
   totalPrice: number = 0;
-  secretNotes: string = '';
+  secretNotes: string = ''; // Notes for the quote
 
   constructor(private http: HttpClient) {} // Inject HttpClient
 
   retrieveQuote(): void {
-    console.log('Retrieving quote with ID:', this.quoteID);
-    if (!this.quoteID) {
-      alert('Please enter a Quote ID.');
+    console.log('Retrieving quote with custID:', this.custID);
+    if (!this.custID) {
+      alert('Please enter a Customer ID.');
       return;
     }
-  
-    this.http.get(`http://localhost:5001/api/get-quote?quoteID=${this.quoteID}`)
+
+    this.http.get(`http://localhost:5001/api/get-quote?custID=${this.custID}`)
       .subscribe(
         (response: any) => {
-          if (response && response.lineItems) {
-            this.lineItems = response.lineItems;
-            this.secretNotes = response.secretNotes || '';
+          if (response && Array.isArray(response)) {
+            this.lineItems = response.map((quote: any) => ({
+              item: quote.item, // Backend returns 'item'
+              price: parseFloat(quote.price), // Ensure price is a number
+              email: quote.email, // Add 'email'
+              secretNotes: quote.secretNotes, // Add 'secretNotes'
+            }));
             this.calculateTotal();
           } else {
             alert('Quote not found or invalid data.');
@@ -46,8 +50,8 @@ export class FinalizedQuotesComponent {
         }
       );
   }
-  
 
+  
   // Add a new line item
   addLineItem(): void {
     const newItem = { item: 'New Item', price: 0 };
@@ -92,6 +96,6 @@ export class FinalizedQuotesComponent {
 
   // Send email (mock function)
   sendEmail(): void {
-    console.log('Sending email for quote ID:', this.quoteID);
+    console.log('Sending email for custID:', this.custID);
   }
 }
