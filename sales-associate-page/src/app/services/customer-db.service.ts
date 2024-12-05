@@ -51,12 +51,7 @@ export class CustomerService {
     return this.http.post<PurchaseOrderQuotes>(`${this.apiUrl}/send_purchase_order`, order);
   }
 
-<<<<<<< HEAD
-  applyFinalDiscount(discount: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/applyFinalDiscount`, discount);
-=======
   getSalesAssociates(): Observable<SalesAssociate[]> {
     return this.http.get<SalesAssociate[]>(`${this.apiUrl}/getAllAssociates`);
->>>>>>> 5fde1815e9f8e775dbe59b9370774733f1311f01
   }
 }
