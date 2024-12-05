@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer, EnterQuotes, PurchaseOrderQuotes, associateLogin, Quotes } from '../models/customer.model';
+import { Customer, EnterQuotes, PurchaseOrderQuotes, associateLogin, Quotes, SalesAssociate } from '../models/customer.model';
 @Injectable({
   providedIn: 'root', // This makes the service available throughout the app
 })
 export class CustomerService {
-  private apiUrl = 'http://localhost:5001'; // Your backend endpoint
+  private apiUrl = 'http://localhost:5001'; // backend endpoint
 
   constructor(private http: HttpClient) { }
 
@@ -51,7 +51,12 @@ export class CustomerService {
     return this.http.post<PurchaseOrderQuotes>(`${this.apiUrl}/send_purchase_order`, order);
   }
 
+<<<<<<< HEAD
   applyFinalDiscount(discount: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/applyFinalDiscount`, discount);
+=======
+  getSalesAssociates(): Observable<SalesAssociate[]> {
+    return this.http.get<SalesAssociate[]>(`${this.apiUrl}/getAllAssociates`);
+>>>>>>> 5fde1815e9f8e775dbe59b9370774733f1311f01
   }
 }

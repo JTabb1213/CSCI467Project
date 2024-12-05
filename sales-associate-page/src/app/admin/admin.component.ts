@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { SalesAssociate } from '../models/customer.model';
+import { CustomerService } from '../services/customer-db.service';
 @Component({
   selector: 'app-admin',
   standalone: true,
@@ -10,6 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
+  constructor(private apiService: CustomerService) { }
+  associates: SalesAssociate[] = []
   // Filters object to bind with the form inputs
   filters = {
     status: '',
@@ -19,6 +22,16 @@ export class AdminComponent {
     customer: ''
   };
 
+  getSalesAssociates() {
+    this.apiService.getSalesAssociates().subscribe(data => {
+      console.log(data)
+      this.associates = data
+      console.log("HI: ", this.associates)
+      //console.log(this.allQuotes);
+    }, error => {
+      console.error('Error fetching quotes:', error);
+    });
+  }
   // Placeholder data for sales associates until the databse is connected
   salesAssociates = [
     { id: 1, name: 'Riker', username: 'WRiker', commission: 5000, address: '123 stargazer St' },

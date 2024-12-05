@@ -25,10 +25,10 @@ export class EditComponent {
 
 
   showSidebar = false;
-  customerList: Customer[] = []; // Array to hold the customer data
-  quotesList: EnterQuotes[] = [] // Array to hold the quotes
+  customerList: Customer[] = [];
+  quotesList: EnterQuotes[] = []
 
-  ord: EnterQuotes | null = null;//neccesary unless cuz there only is one purchaseorder at once
+  ord: EnterQuotes | null = null;
   showColorWheel: boolean = false;
   customersHere: boolean = false;
   quotesHere: boolean = false;
@@ -74,7 +74,7 @@ export class EditComponent {
     }
   */
   setWorking(): void {
-    this.showColorWheel = !this.showColorWheel; // Toggle the color wheel display
+    this.showColorWheel = !this.showColorWheel;
   }
 
   hideCustomerList(): void {
