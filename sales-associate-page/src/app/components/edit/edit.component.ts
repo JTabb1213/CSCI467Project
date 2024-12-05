@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../../services/customer-db.service';
 import { ActivatedRoute } from '@angular/router';
 
-
 @Component({
   selector: 'app-edit',
   standalone: true,
@@ -43,19 +42,26 @@ export class EditComponent {
   allQuotes: EnterQuotes[] = [];
 
   onCustomersLoaded(customers: Customer[]): void {
-    this.customerList = customers;
-    this.customersHere = customers.length > 0;// So the 'all customers' header wont always appear
-    console.log(customers)
+    this.showColorWheel = true;
+    setTimeout(() => {
+      this.customerList = customers;
+      this.customersHere = customers.length > 0;// So the 'all customers' header wont always appear
+      console.log(customers)
+      this.showColorWheel = false;
+    }, 1000)
   }
 
   getAllQuotes(salesID: string): void {
+    this.showColorWheel = true;
     this.apiService.getQuotes(salesID).subscribe(data => {
       this.quotesList = data;
       this.quotesHere = data.length > 0;// So the 'all customers' header wont always appear
       console.log(data)
+      this.showColorWheel = false;
       //console.log(this.allQuotes);
     }, error => {
       console.error('Error fetching quotes:', error);
+      this.showColorWheel = false;
     });
   }
 

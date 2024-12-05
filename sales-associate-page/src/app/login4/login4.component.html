@@ -21,6 +21,11 @@
     </form>
   </div>
   
-    
+  <div *ngIf="showColorWheel" class="customer-list-container">
+    <div *ngIf="showColorWheel" class="loading-spinner-container">
+        <div class="loading-spinner"></div>
+    </div>
+  </div>
+
     <router-outlet></router-outlet>
     
