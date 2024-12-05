@@ -64,6 +64,28 @@ def get_and_calculate_final_price(quoteID, amount):
     finally:
         session.close()
 
+
+def update_orders_db(final_price, quote_id, sales_id, cust_id, processDay):
+    try:
+        session = SessionLocal2()
+        query = text("""
+            INSERT INTO orders (final_price, quote_id, sales_id, cust_id, processDay)
+            VALUES (:final_price, :quote_id, :sales_id, :cust_id, :processDay)
+        """)
+        session.execute(query, {
+            'final_price': final_price,
+            'quote_id': quote_id,
+            'sales_id': sales_id,
+            'cust_id': cust_id,
+            'processDay': processDay
+        })
+        session.commit()
+        return "Order was added to the table"
+    except Exception as e:
+        return str(e)
+    finally:
+        session.close()
+
 #Model for the DB
 class Customer(Base):
     __tablename__ = 'customers'
@@ -122,6 +144,7 @@ def send_purchase():
             #print("final_amount: ", final_amount)
             result['paid'] = paid
             result['final_amount'] = final_amount
+            update_orders_db(result['final_amount'], result['order'], result['associate'], result['custid'], result['processDay'])
             jsonify(result)
             print(result)
             return jsonify(result), 200
