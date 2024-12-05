@@ -12,7 +12,7 @@ import { Login4Component } from './login4/login4.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminComponent } from './admin/admin.component';
 
-
+// defines all routes for our front end app. when url at top is changes to /'route', the corresponding component will be rendered
 export const routes: Routes = [
   {
     path: '',
