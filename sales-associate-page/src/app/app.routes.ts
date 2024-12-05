@@ -10,6 +10,7 @@ import { Login2Component } from './login2/login2.component';
 import { Login3Component } from './login3/login3.component';
 import { Login4Component } from './login4/login4.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 export const routes: Routes = [
@@ -51,7 +52,7 @@ export const routes: Routes = [
     },
     {
       path: 'admin-page',
-      component: AdminPageComponent,
+      component: AdminComponent,
     },
 
   ];

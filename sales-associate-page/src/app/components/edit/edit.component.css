@@ -3,6 +3,19 @@
     /* Adds a small amount of space at the bottom */
 }
 
+header {
+    background-color: #E6D7D0;
+    color: #333333;
+    width: 100%;
+    padding: 0; 
+    margin: 0; 
+    height: 100px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);      
+}
 
 .mainContainer {
     display: flex;
@@ -70,7 +83,7 @@ strong {
 
 .enterInfoContainer {
     left: 50%;
-    width: 50%;
+    width: 0%;
     padding: 20px;
     background-color: #f0f4f8;
     border: 1px solid #d1d9e0;
@@ -141,22 +154,26 @@ textarea {
 }
 
 .button {
-    display: flex;
-    /* Enable Flexbox layout */
-    justify-content: flex-start;
-    /* Align items to the left (you can change this if needed) */
-    padding: 20px;
-    /* Optional: Adjust padding for internal space */
-    margin: 20px;
-    /* Optional: Adjust outer margin for spacing around the container */
+    display: inline-block;
+    background-color: #d3e0ea;
+    color: #333333;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
 }
 
-.button>* {
-    margin-right: 20px;
-    /* Adds space between each button */
+.button:hover {
+    background-color: #aacfd0;
+    transform: scale(1.05);
 }
 
-/* Optionally, remove the margin from the last button */
-.button>*:last-child {
-    margin-right: 0;
+.button:active {
+    background-color: #8aa7ab;
+    transform: scale(1.02);
 }

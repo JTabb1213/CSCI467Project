@@ -1,47 +1,242 @@
-<div class="mainContainer">
-    <div class="enterInfoContainer">
-        <label for="customerID">Customer ID:</label>
-        <input type="text" id="customerID" [(ngModel)]="customerID" placeholder="Enter customer's ID">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Quotes Dashboard</title>
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Arial, sans-serif';
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
 
-        <label for="price">Price:</label>
-        <input type="text" id="price" [(ngModel)]="price" placeholder="Enter quote price">
+        .spacer {
+            height: 20px;
+        }
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" [(ngModel)]="email" placeholder="Enter customer's email">
+        header {
+            background-color: #E6D7D0;
+            color: #333333;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-        <label for="description">Description:</label>
-        <textarea id="description" [(ngModel)]="description" placeholder="Enter quote description" rows="4"></textarea>
+        header h1 {
+            font-size: 1.8em;
+        }
 
-        <label for="secretNotes">Secret Notes:</label>
-        <textarea id="secretNotes" [(ngModel)]="secretNotes" placeholder="Enter any secret notes here" rows="4"></textarea>
+        .mainContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
 
-        <label for="isFinalized">Is Finalized:</label>
-        <select id="isFinalized" [(ngModel)]="isFinalized">
-            <option [ngValue]="true">Yes</option>
-            <option [ngValue]="false">No</option>
-        </select>     
+        h3 {
+            color: #343a40;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
 
-        <button class='submitOrderButton' (click)="submitCustomerOrder()">Submit</button>
-    </div>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-    <div class="boxForCustomersListAndButton">
-        <div class="button">
-            <app-button-to-view-all-customers (customersLoaded)="onCustomersLoaded($event)" (click)="setWorking(); hideQuotesList()"></app-button-to-view-all-customers>
-            <button (click)="getAllQuotes(salesID); setWorking(); hideCustomerList()">
-                View All Quotes
-            </button>
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            transition: background-color 0.3s;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li:hover {
+            background-color: #e9ecef;
+        }
+
+        strong {
+            display: block;
+            font-size: 18px;
+            color: #495057;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #dc3545;
+            font-size: 20px;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover {
+            color: #c82333;
+        }
+
+        .customer-list-container {
+            position: relative;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .enterInfoContainer {
+            width: 50%;
+            padding: 20px;
+            background-color: #f0f4f8;
+            border: 1px solid #d1d9e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .enterInfoContainer label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .enterInfoContainer input[type="text"],
+        .enterInfoContainer textarea,
+        .enterInfoContainer select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d9e0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .enterInfoContainer input[type="text"]:focus,
+        .enterInfoContainer textarea:focus,
+        .enterInfoContainer select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        .submitOrderButton {
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submitOrderButton:hover {
+            background-color: #0056b3;
+        }
+
+        .boxForCustomersListAndButton {
+            position: relative;
+            width: 60%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #eaf2f8;
+            border: 1px solid #c1c9d0;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #d3e0ea;
+            color: #333333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #aacfd0;
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            background-color: #8aa7ab;
+            transform: scale(1.02);
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sales Quotes Dashboard</h1>
+    </header>
+
+    <div class="mainContainer">
+        <div class="enterInfoContainer">
+            <label for="customerID">Customer ID:</label>
+            <input type="text" id="customerID" [(ngModel)]="customerID" placeholder="Enter customer's ID">
+
+            <label for="price">Price:</label>
+            <input type="text" id="price" [(ngModel)]="price" placeholder="Enter quote price">
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" [(ngModel)]="email" placeholder="Enter customer's email">
+
+            <label for="description">Description:</label>
+            <textarea id="description" [(ngModel)]="description" placeholder="Enter quote description"></textarea>
+
+            <label for="secretNotes">Secret Notes:</label>
+            <textarea id="secretNotes" [(ngModel)]="secretNotes" placeholder="Enter any secret notes here"></textarea>
+
+            <label for="isFinalized">Is Finalized:</label>
+            <select id="isFinalized" [(ngModel)]="isFinalized">
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+            </select>
+
+            <button class="submitOrderButton" (click)="submitCustomerOrder()">Submit</button>
+        </div>
+
+        <div class="boxForCustomersListAndButton">
+            <button class="button" (click)="setWorking(); hideQuotesList()">View Customers</button>
+            <button class="button" (click)="getAllQuotes(salesID); setWorking(); hideCustomerList()">View All Quotes</button>
         </div>
 
         <div *ngIf="customersHere" class="customer-list-container">
             <div class="close-button" (click)="hideCustomerList()">x</div>
             <h3>All Customers:</h3>
             <ul>
-            <li *ngFor="let customer of customerList">
-                <strong>{{ customer.name }}</strong><br>
-                Address: {{ customer.street }}, {{ customer.city }}<br>
-                Contact: {{ customer.contact }}<br>
-                ID: {{ customer.id }}
-            </li>
+                <li *ngFor="let customer of customerList">
+                    <strong>{{ customer.name }}</strong><br>
+                    Address: {{ customer.street }}, {{ customer.city }}<br>
+                    Contact: {{ customer.contact }}<br>
+                    ID: {{ customer.id }}
+                </li>
             </ul>
         </div>
 
@@ -49,21 +244,19 @@
             <div class="close-button" (click)="hideQuotesList()">x</div>
             <h3>All Quotes:</h3>
             <ul>
-            <li *ngFor="let quote of quotesList">
-                <strong>{{ quote.description }}</strong><br>
-                Quote price: ${{quote.price}}<br>
-                Customer ID: {{ quote.custID }}<br>
-                Customer email: {{quote.email}}<br>
-                Associate ID: {{quote.associateID}}<br>
-                Secrets: {{quote.secretNotes}}<br>
-                Is final: {{ quote.isFinalized ? 'Yes' : 'No' }}
-            </li>
+                <li *ngFor="let quote of quotesList">
+                    <strong>{{ quote.description }}</strong><br>
+                    Quote price: ${{ quote.price }}<br>
+                    Customer ID: {{ quote.custID }}<br>
+                    Customer email: {{ quote.email }}<br>
+                    Associate ID: {{ quote.associateID }}<br>
+                    Secrets: {{ quote.secretNotes }}<br>
+                    Is final: {{ quote.isFinalized ? 'Yes' : 'No' }}
+                </li>
             </ul>
         </div>
     </div>
-</div>
 
-<div class="spacer"></div>
-
-  
-
+    <div class="spacer"></div>
+</body>
+</html>
