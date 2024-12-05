@@ -456,65 +456,50 @@ def delete_sales_associate(id):
     finally:
         session.close()
 
-
 @app.route('/api/get-quote', methods=['GET'])
 def get_quote():
     session = SessionLocal2()  # Use the correct session for your database
     try:
-        quote_id = request.args.get('quoteID')  # Retrieve the quoteID from query params
-        print(f"Received quoteID: {quote_id}")  # Debugging log
+        cust_id = request.args.get('custID')  # Get the Customer ID from query params
+        print(f"Received custID: {cust_id}")  # Debugging log
 
-        # Query the database for the quote with the given quoteID
+        # Validate custID
+        if not cust_id:
+            return jsonify({'error': 'custID is required'}), 400
+
+        # Query the database for the quote with the given custID
         query = session.execute(text(
-            "SELECT * FROM customer_quotes WHERE id = :quoteID"
-        ), {'quoteID': quote_id}).fetchone()
+            """
+            SELECT 
+                description AS item, 
+                price, 
+                email, 
+                secretNotes
+            FROM customer_quotes
+            WHERE custID = :custID
+            """
+        ), {'custID': cust_id})
 
-        print(f"Raw query result: {query}")  # Debugging log
-        print(f"Query type: {type(query)}")  # Log the type of the query result
+        rows = query.fetchall()
 
-        # Inspect attributes and methods of the query object
-        print(f"Query dir: {dir(query)}")  # List available attributes/methods
+        # Explicitly map column names to dictionary
+        columns = query.keys()  # Get the column names
+        results = [dict(zip(columns, row)) for row in rows]
 
-        if query:
-            # Check if it has '_mapping' or 'keys'
-            if hasattr(query, '_mapping'):
-                print(f"Keys from _mapping: {query._mapping.keys()}")
-            else:
-                print("No _mapping attribute found.")
-
-            return jsonify({'message': 'Check the logs for keys.'}), 200
+        if results:
+            print(f"Query Results: {results}")  # Debugging log
+            return jsonify(results), 200
         else:
-            print("Quote not found")
+            print("Quote not found")  # Debugging log
             return jsonify({'message': 'Quote not found'}), 404
 
     except Exception as e:
-        print(f"Error occurred: {str(e)}")  # Debugging log
-        return jsonify({'error': str(e)}), 500
+        error_message = traceback.format_exc()
+        print(f"Error occurred: {error_message}")  # Debugging log
+        return jsonify({'error': 'Internal Server Error', 'details': str(e)}), 500
 
     finally:
         session.close()
-
-   
-
-@app.route('/debug/customer-quotes', methods=['GET'])
-def debug_customer_quotes():
-    session = SessionLocal2()
-    try:
-        query = session.execute(text("SELECT * FROM customer_quotes"))
-        rows = query.fetchall()
-        columns = query.keys()
-
-        # Combine columns and rows properly
-        results_list = [dict(zip(columns, row)) for row in rows]
-
-        return jsonify(results_list), 200
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")  # Debugging log
-        return jsonify({'error': str(e)}), 500
-    finally:
-        session.close()
-
-
 
 
 if __name__ == '__main__':
