@@ -10,8 +10,8 @@ describe('PurchaseOrderComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PurchaseOrderComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(PurchaseOrderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

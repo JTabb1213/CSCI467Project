@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer, EnterQuotes, associateLogin } from '../models/customer.model';
+import { Customer, EnterQuotes, PurchaseOrderQuotes, associateLogin, Quotes } from '../models/customer.model';
 @Injectable({
   providedIn: 'root', // This makes the service available throughout the app
 })
@@ -43,7 +43,11 @@ export class CustomerService {
     return this.http.post<any>(`${this.apiUrl}/attempt_purchaseOrder_login`, user);
   }
 
-  getFinalizedQuotes(): Observable<EnterQuotes[]> {
-    return this.http.get<EnterQuotes[]>(`${this.apiUrl}/get_finalized_quotes`);
+  getFinalizedQuotes(): Observable<Quotes[]> {
+    return this.http.get<Quotes[]>(`${this.apiUrl}/get_finalized_quotes`);
+  }
+
+  sendPurchaseOrder(order: PurchaseOrderQuotes): Observable<any> {
+    return this.http.post<PurchaseOrderQuotes>(`${this.apiUrl}/send_purchase_order`, order);
   }
 }

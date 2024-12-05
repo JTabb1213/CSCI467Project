@@ -30,7 +30,7 @@ export class Login4Component {
     };
 
     console.log("login: ", login)
-    this.apiService.finalizedLogin(login).subscribe((data: associateLogin) => {
+    this.apiService.adminLogin(login).subscribe((data: associateLogin) => {
       console.log("login was succesful", data);
       this.router.navigate(['/admin-page'], { queryParams: { username: this.username } });
 

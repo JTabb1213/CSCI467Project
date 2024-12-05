@@ -24,6 +24,7 @@ export class EditComponent {
     console.log(this.salesID)
   }
 
+
   showSidebar = false;
   customerList: Customer[] = []; // Array to hold the customer data
   quotesList: EnterQuotes[] = [] // Array to hold the quotes
@@ -41,7 +42,6 @@ export class EditComponent {
   isFinalized: boolean = false;
   allQuotes: EnterQuotes[] = [];
 
-  // Method to handle received data
   onCustomersLoaded(customers: Customer[]): void {
     this.customerList = customers;
     this.customersHere = customers.length > 0;// So the 'all customers' header wont always appear
@@ -91,6 +91,7 @@ export class EditComponent {
       secretNotes: this.secretNotes,
       isFinalized: this.isFinalized
     };
+
     console.log("isFinalized value:", this.isFinalized);
     console.log("isFinalized type:", typeof this.isFinalized)
     console.log(this.isFinalized);
