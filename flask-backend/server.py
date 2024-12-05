@@ -54,6 +54,7 @@ def get_and_calculate_commission(quoteID, percent):
     finally:
         session.close()
 
+# function to calculate final price
 def get_and_calculate_final_price(quoteID, amount):
     try:
         session = SessionLocal2()
@@ -68,7 +69,7 @@ def get_and_calculate_final_price(quoteID, amount):
     finally:
         session.close()
 
-
+# function to update the orders database
 def update_orders_db(final_price, quote_id, sales_id, cust_id, processDay):
     try:
         session = SessionLocal2()
@@ -90,7 +91,7 @@ def update_orders_db(final_price, quote_id, sales_id, cust_id, processDay):
     finally:
         session.close()
 
-#Model for the DB
+#Model for the 'customers' table. Makes it easier to query 
 class Customer(Base):
     __tablename__ = 'customers'
 
@@ -110,6 +111,7 @@ class Customer(Base):
             'contact': self.contact
         }
 
+# endpoint that will send the post request to the 
 @app.route('/send_purchase_order', methods=['POST'])
 def send_purchase():
     try:
@@ -159,14 +161,11 @@ def send_purchase():
 
 @app.route('/attempt_associate_login', methods=['POST'])
 def associate_login():
-    session = SessionLocal2()  # Create a session with your database
+    session = SessionLocal2()  
     try:
-        # Parse request data
         data = request.get_json()
         user = data['username']
         passwrd = data['passwrd']
-
-        # Query the database for a matching username or password
         query = session.execute(text(
             """
             SELECT * 
@@ -176,7 +175,6 @@ def associate_login():
             {'user': user, 'passwrd': passwrd}
         ).fetchone()
 
-        # Check if a result was found
         if query:
             return jsonify({'message': 'Login successful'}), 200
         else:
@@ -186,19 +184,17 @@ def associate_login():
         return jsonify({'error': str(e)}), 500
 
     finally:
-        session.close()  # Close the database session
+        session.close() 
 
 
 @app.route('/attempt_finalized_login', methods=['POST'])
 def finalized_login():
-    session = SessionLocal2()  # Create a session with your database
+    session = SessionLocal2() 
     try:
-        # Parse request data
         data = request.get_json()
         user = data['username']
         passwrd = data['passwrd']
 
-        # Query the database for a matching username or password
         query = session.execute(text(
             """
             SELECT * 
@@ -208,7 +204,6 @@ def finalized_login():
             {'user': user, 'passwrd': passwrd}
         ).fetchone()
 
-        # Check if a result was found
         if query:
             return jsonify({'message': 'Login successful'}), 200
         else:
@@ -218,18 +213,16 @@ def finalized_login():
         return jsonify({'error': str(e)}), 500
 
     finally:
-        session.close()  # Close the database session
+        session.close() 
 
 @app.route('/attempt_admin_login', methods=['POST'])
 def admin_login():
-    session = SessionLocal2()  # Create a session with your database
+    session = SessionLocal2()  
     try:
-        # Parse request data
         data = request.get_json()
         user = data['username']
         passwrd = data['passwrd']
 
-        # Query the database for a matching username or password
         query = session.execute(text(
             """
             SELECT * 
@@ -239,7 +232,6 @@ def admin_login():
             {'user': user, 'passwrd': passwrd}
         ).fetchone()
 
-        # Check if a result was found
         if query:
             return jsonify({'message': 'Login successful'}), 200
         else:
@@ -249,19 +241,17 @@ def admin_login():
         return jsonify({'error': str(e)}), 500
 
     finally:
-        session.close()  # Close the database session
+        session.close()  
 
 
 @app.route('/attempt_purchaseOrder_login', methods=['POST'])
 def purcharOrder_login():
-    session = SessionLocal2()  # Create a session with your database
+    session = SessionLocal2()  
     try:
-        # Parse request data
         data = request.get_json()
         user = data['username']
         passwrd = data['passwrd']
 
-        # Query the database for a matching username or password
         query = session.execute(text(
             """
             SELECT * 
@@ -271,7 +261,6 @@ def purcharOrder_login():
             {'user': user, 'passwrd': passwrd}
         ).fetchone()
 
-        # Check if a result was found
         if query:
             return jsonify({'message': 'Login successful'}), 200
         else:
@@ -281,18 +270,18 @@ def purcharOrder_login():
         return jsonify({'error': str(e)}), 500
 
     finally:
-        session.close()  # Close the database session
+        session.close()  
 
 
 
-@app.route('/message', methods=['GET']) # Call this route to get the backend message
+@app.route('/message', methods=['GET']) 
 def get_message():
     return jsonify(message="Hello from the Flask backend!")
 
-@app.route('/all_customer_info', methods=['GET']) # Call this route from  the frontend to get all customers
+@app.route('/all_customer_info', methods=['GET'])
 def get_all_customer_info():
 
-    session = SessionLocal1() #Use session 1
+    session = SessionLocal1()
     try:
         customers = session.query(Customer).all()
         return jsonify([customer.to_dict() for customer in customers])
@@ -317,7 +306,7 @@ def test_db_connection():
 
 @app.route('/view_all_quotes', methods=['GET'])
 def view_all_quotes():
-    session = SessionLocal2()  # Initialize a new session
+    session = SessionLocal2()
     try:
         associate_id = request.args.get('associateID')
         query = text("SELECT * FROM customer_quotes WHERE associateID = :associate_id")
@@ -329,11 +318,15 @@ def view_all_quotes():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:
-        session.close()  # Close the session
+        session.close()  
 
-@app.route('/purchase_order', methods=['POST'])  # Endpoint for sales associate to add/update a quote
+# this endpoint gets called when you want to add changes to the 'customer_quotes' table, which keeps
+# track of all customer orders. It firts searches to see if there is already a quote that exists and is not finalized, if there is
+# then it will update it with the info. If not (quote for custID doesnt exist or there are none that arent finalized),
+# then it will create a new quote
+@app.route('/purchase_order', methods=['POST']) 
 def send_purchase_order():
-    session = SessionLocal2()  # Use session 2
+    session = SessionLocal2()  
     try:
         data = request.get_json()
         associate = data['associateID']
@@ -352,14 +345,12 @@ def send_purchase_order():
 
         print(f"Received isFinalized value: {isFinalized} (Type: {type(isFinalized)})")
 
-        # Check if a quote already exists for this customer and is not finalized
         existing_quote = session.execute(text("""
             SELECT * FROM customer_quotes 
             WHERE custID = :custid AND isFinalized = FALSE
         """), {'custid': custid}).fetchone()
 
         if existing_quote:
-            # If an editable quote exists, update it
             session.execute(text("""
                 UPDATE customer_quotes 
                 SET associateID = :associate, price = :price, email = :email, 
@@ -378,7 +369,6 @@ def send_purchase_order():
             action = "updated"
 
         else:
-            # If no editable quote exists, create a new one
             session.execute(text("""
                 INSERT INTO customer_quotes (associateID, custID, price, email, description, secretNotes, isFinalized)
                 VALUES (:associate, :custid, :price, :email, :description, :secrets, :isFinalized)
@@ -394,10 +384,8 @@ def send_purchase_order():
 
             action = "created"
 
-        # Commit the transaction
         session.commit()
 
-        # Return success response
         return jsonify({
             'message': f"Quote successfully {action}.",
             'isFinalized': isFinalized
@@ -406,8 +394,7 @@ def send_purchase_order():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     finally:
-        session.close()  # Close the session
-
+        session.close()  
 @app.route('/get_finalized_quotes', methods=['GET'])
 def get_finalized_quotes():
     session = SessionLocal2()
@@ -421,7 +408,7 @@ def get_finalized_quotes():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:
-        session.close()  # Close the database session
+        session.close() 
 
 @app.route('/api/sales-associates', methods=['GET'])
 def get_sales_associates():
@@ -485,16 +472,14 @@ def delete_sales_associate(id):
 
 @app.route('/api/get-quote', methods=['GET'])
 def get_quote():
-    session = SessionLocal2()  # Use the correct session for your database
+    session = SessionLocal2()  
     try:
-        cust_id = request.args.get('custID')  # Get the Customer ID from query params
-        print(f"Received custID: {cust_id}")  # Debugging log
+        cust_id = request.args.get('custID')  
+        print(f"Received custID: {cust_id}") 
 
-        # Validate custID
         if not cust_id:
             return jsonify({'error': 'custID is required'}), 400
 
-        # Query the database for the quote with the given custID
         query = session.execute(text(
             """
             SELECT 
@@ -509,20 +494,19 @@ def get_quote():
 
         rows = query.fetchall()
 
-        # Explicitly map column names to dictionary
-        columns = query.keys()  # Get the column names
+        columns = query.keys()  
         results = [dict(zip(columns, row)) for row in rows]
 
         if results:
-            print(f"Query Results: {results}")  # Debugging log
+            print(f"Query Results: {results}") 
             return jsonify(results), 200
         else:
-            print("Quote not found")  # Debugging log
+            print("Quote not found")  
             return jsonify({'message': 'Quote not found'}), 404
 
     except Exception as e:
         error_message = traceback.format_exc()
-        print(f"Error occurred: {error_message}")  # Debugging log
+        print(f"Error occurred: {error_message}")  
         return jsonify({'error': 'Internal Server Error', 'details': str(e)}), 500
 
     finally:
